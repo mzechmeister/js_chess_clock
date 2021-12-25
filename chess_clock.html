@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>chess clock</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+#pl_white, #pl_black {
+    border: 1px black solid;
+    flex-grow: 2;
+    font: bold 30vw Roboto;
+    margin: 6px;
+}
+
+#pl_white {
+    background-color: white;
+    transform: rotate(180deg);
+}
+
+#pl_black {
+    background-color: black;
+    color: white;
+}
+
+button:active, #pl_white:active, #pl_black:active {
+    background-color: grey;
+}
+
+#control > button {
+    border: 1px black solid;
+    flex-grow: 1;
+    font: bold 5vw Roboto;
+    margin: 3px;
+}
+
+#control {
+    text-align: center;
+}
+
+</style>
+</head>
+
+<body style="display:flex; flex-flow: column; height: 100vh; margin:0;">
+<button id="pl_white" onclick="clickWhite()"></button>
+
+<div id="control">
+<button onclick="reset()">Reset</button>
+<button onclick="pause()">Pause</button>
+</div>
+
+<button id="pl_black" onclick="clickBlack()"></button>
+
+<script>
+reset = e => {
+    t_white = 10 * 60 * 1000
+    t_black = 10 * 60 * 1000
+    pl_white.innerHTML = tfmt(t_white)
+    pl_black.innerHTML = tfmt(t_black)
+    pl_now = null
+}
+
+pause = e => {
+    if (pl_now == pl_black) t_black = remaining
+    if (pl_now == pl_white) t_white = remaining
+    pl_now = null
+}
+
+clickWhite = e => { 
+    if (pl_now == pl_black) return            // black is already running
+    if (pl_now != null) t_white = remaining   // after resume from pause
+    pl_now = pl_black
+    endTime = new Date().getTime() + t_black
+}
+
+clickBlack = e => { 
+    if (pl_now == pl_white) return
+    if (pl_now != null) t_black = remaining
+    pl_now = pl_white
+    endTime = new Date().getTime() + t_white
+}
+
+function tfmt(t) {
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(t / (1000 * 60 * 60 * 24))
+    var hours = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+    var min = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60))
+    var sec = Math.floor((t % (1000 * 60)) / 1000)
+    return String(min).padStart(2, '0') + ":" + String(sec).padStart(2, '0')
+}
+
+var now = new Date().getTime()
+
+function counter() {
+    endTime = now + t_white
+ 
+    // Update the count down every 1 second
+    x = setInterval(function() {
+        var now = new Date().getTime()
+        remaining = endTime - now
+
+        if (pl_now) {
+            pl_now.innerHTML = tfmt(remaining)
+            if (remaining < 0) {
+                clearInterval(x);
+                pl_now.innerHTML = "EXPIRED"
+            }
+        }
+    }, 500)
+}
+
+
+reset()
+counter()
+
+</script>
+
+</body>
+</html>
