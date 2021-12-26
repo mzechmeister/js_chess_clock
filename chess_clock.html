@@ -52,6 +52,8 @@ button:active, #pl_white:active, #pl_black:active {
 <button id="pl_white" onclick="clickWhite()"></button>
 
 <div id="control">
+<button onclick="++t0mm; reset(1)" style="float:left">+</button>
+<button onclick="--t0mm; reset(1)" style="float:left">&minus;</button>
 <button onclick="reset()">Reset</button>
 <button onclick="pause()">Pause</button>
 <a href="https://github.com/mzechmeister/js_chess_clock" style="float:right; padding-right: 0.3em;"><svg width="12" height="12" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -62,16 +64,20 @@ button:active, #pl_white:active, #pl_black:active {
 <button id="pl_black" onclick="clickBlack()"></button>
 
 <script>
-reset = e => {
-    t_white = 10 * 60 * 1000
-    t_black = 10 * 60 * 1000
+t0mm = 10  // [min] default time limit
+
+function reset(prevent_swap) {
+    t_white = t0mm * 60 * 1000
+    t_black = t0mm * 60 * 1000
     pl_white.innerHTML = tfmt(t_white)
     pl_black.innerHTML = tfmt(t_black)
-    pl_white.classList.toggle("swap")
-    pl_black.classList.toggle("swap")
-    var swap = document.getElementsByClassName("swap").length
-    pl_white.setAttribute('cnt', swap ? -1 : 0)
-    pl_black.setAttribute('cnt', swap ? 0 : -1)
+    if (!prevent_swap) {
+        pl_white.classList.toggle("swap")
+        pl_black.classList.toggle("swap")
+        var swap = document.getElementsByClassName("swap").length
+        pl_white.setAttribute('cnt', swap ? -1 : 0)
+        pl_black.setAttribute('cnt', swap ? 0 : -1)
+    }
     pl_now = null
 }
 
@@ -126,7 +132,7 @@ function counter() {
     }, 500)
 }
 
-reset()
+reset(1)
 counter()
 
 </script>
