@@ -105,21 +105,20 @@ clickBlack = e => {
 
 function tfmt(t) {
     // Time calculations for days, hours, minutes and seconds
-    var days = Math.floor(t / (1000 * 60 * 60 * 24))
-    var hours = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-    var min = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60))
-    var sec = Math.floor((t % (1000 * 60)) / 1000)
-    return String(min).padStart(2, '0') + ":" + String(sec).padStart(2, '0')
+    var hh = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+    var mm = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60))
+    var ss = Math.floor((t % (1000 * 60)) / 1000)
+    return mm + ":" + String(ss).padStart(2, '0')
 }
 
-var now = new Date().getTime()
 
 function counter() {
+    var now = new Date().getTime()
     endTime = now + t_white
  
     // Update the count down every 1 second
     x = setInterval(function() {
-        var now = new Date().getTime()
+        now = new Date().getTime()
         remaining = endTime - now
 
         if (pl_now) {
