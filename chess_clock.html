@@ -11,15 +11,23 @@
     margin: 6px;
 }
 
+#pl_white {
+    transform: rotate(180deg);
+}
+
 #pl_white, #pl_black.swap {
     background-color: white;
     color: black;
-    transform: rotate(180deg);
 }
 
 #pl_black, #pl_white.swap {
     background-color: black;
     color: white;
+}
+
+#pl_black:after, #pl_white:after {
+    content: " "attr(cnt);
+    font-size: 18px;
 }
 
 button:active, #pl_white:active, #pl_black:active {
@@ -58,6 +66,9 @@ reset = e => {
     pl_black.innerHTML = tfmt(t_black)
     pl_white.classList.toggle("swap")
     pl_black.classList.toggle("swap")
+    var swap = document.getElementsByClassName("swap").length
+    pl_white.setAttribute('cnt', swap ? -1 : 0)
+    pl_black.setAttribute('cnt', swap ? 0 : -1)
     pl_now = null
 }
 
@@ -72,6 +83,7 @@ clickWhite = e => {
     if (pl_now != null) t_white = remaining   // after resume from pause
     pl_now = pl_black
     endTime = new Date().getTime() + t_black
+    pl_white.setAttribute('cnt', +pl_white.getAttribute('cnt') + 1)
 }
 
 clickBlack = e => { 
@@ -79,6 +91,7 @@ clickBlack = e => {
     if (pl_now != null) t_black = remaining
     pl_now = pl_white
     endTime = new Date().getTime() + t_white
+    pl_black.setAttribute('cnt', +pl_black.getAttribute('cnt') + 1)
 }
 
 function tfmt(t) {
