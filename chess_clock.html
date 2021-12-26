@@ -4,33 +4,33 @@
     <title>chess clock</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-#pl_white, #pl_black {
+#playerA, #playerB {
     border: 1px black solid;
     flex-grow: 2;
     font: bold 30vw Roboto;
     margin: 6px;
 }
 
-#pl_white {
+#playerA {
     transform: rotate(180deg);
 }
 
-#pl_white, #pl_black.swap {
+#playerA, #playerB.swap {
     background-color: white;
     color: black;
 }
 
-#pl_black, #pl_white.swap {
+#playerB, #playerA.swap {
     background-color: black;
     color: white;
 }
 
-#pl_black:after, #pl_white:after {
+#playerB:after, #playerA:after {
     content: " "attr(cnt);
     font-size: 18px;
 }
 
-button:active, #pl_white:active, #pl_black:active {
+button:active, #playerA:active, #playerB:active {
     background-color: grey;
 }
 
@@ -49,7 +49,7 @@ button:active, #pl_white:active, #pl_black:active {
 </head>
 
 <body style="display:flex; flex-flow: column; height: 100vh; margin:0;">
-<button id="pl_white" onclick="clickWhite()"></button>
+<button id="playerA" onclick="clickWhite()"></button>
 
 <div id="control">
 <button onclick="++t0mm; reset(1)" style="float:left">+</button>
@@ -61,47 +61,47 @@ button:active, #pl_white:active, #pl_black:active {
 </svg></img></a>
 </div>
 
-<button id="pl_black" onclick="clickBlack()"></button>
+<button id="playerB" onclick="clickBlack()"></button>
 
 <script>
 t0mm = 10  // [min] default time limit
 
 function reset(prevent_swap) {
-    t_white = t0mm * 60 * 1000
-    t_black = t0mm * 60 * 1000
-    pl_white.innerHTML = tfmt(t_white)
-    pl_black.innerHTML = tfmt(t_black)
+    timeA = t0mm * 60 * 1000
+    timeB = t0mm * 60 * 1000
+    playerA.innerHTML = tfmt(timeA)
+    playerB.innerHTML = tfmt(timeB)
     if (!prevent_swap) {
-        pl_white.classList.toggle("swap")
-        pl_black.classList.toggle("swap")
+        playerA.classList.toggle("swap")
+        playerB.classList.toggle("swap")
         var swap = document.getElementsByClassName("swap").length
-        pl_white.setAttribute('cnt', swap ? -1 : 0)
-        pl_black.setAttribute('cnt', swap ? 0 : -1)
+        playerA.setAttribute('cnt', swap ? -1 : 0)
+        playerB.setAttribute('cnt', swap ? 0 : -1)
     }
     pl_now = null
 }
 
 pause = e => {
-    if (pl_now == pl_black) t_black = remaining
-    if (pl_now == pl_white) t_white = remaining
+    if (pl_now == playerA) timeA = remaining
+    if (pl_now == playerB) timeB = remaining
     pl_now = null
 }
 
 clickWhite = e => { 
-    if (pl_now == pl_black) return            // black is already running
-    if (pl_now != null) t_white = remaining   // after resume from pause
-    pl_now = pl_black
-    endTime = new Date().getTime() + t_black
-    pl_white.setAttribute('cnt', +pl_white.getAttribute('cnt') + 1)
+    if (pl_now == playerB) return            // black is already running
+    if (pl_now != null) timeA = remaining   // after resume from pause
+    pl_now = playerB
+    endTime = new Date().getTime() + timeB
+    playerA.setAttribute('cnt', +playerA.getAttribute('cnt') + 1)
     beep()
 }
 
 clickBlack = e => { 
-    if (pl_now == pl_white) return
-    if (pl_now != null) t_black = remaining
-    pl_now = pl_white
-    endTime = new Date().getTime() + t_white
-    pl_black.setAttribute('cnt', +pl_black.getAttribute('cnt') + 1)
+    if (pl_now == playerA) return
+    if (pl_now != null) timeB = remaining
+    pl_now = playerA
+    endTime = new Date().getTime() + timeA
+    playerB.setAttribute('cnt', +playerB.getAttribute('cnt') + 1)
     beep()
 }
 
@@ -116,7 +116,7 @@ function tfmt(t) {
 
 function counter() {
     var now = new Date().getTime()
-    endTime = now + t_white
+    endTime = now + timeA
  
     // Update the count down every 1 second
     x = setInterval(function() {
