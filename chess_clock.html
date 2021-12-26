@@ -11,12 +11,13 @@
     margin: 6px;
 }
 
-#pl_white {
+#pl_white, #pl_black.swap {
     background-color: white;
+    color: black;
     transform: rotate(180deg);
 }
 
-#pl_black {
+#pl_black, #pl_white.swap {
     background-color: black;
     color: white;
 }
@@ -55,6 +56,8 @@ reset = e => {
     t_black = 10 * 60 * 1000
     pl_white.innerHTML = tfmt(t_white)
     pl_black.innerHTML = tfmt(t_black)
+    pl_white.classList.toggle("swap")
+    pl_black.classList.toggle("swap")
     pl_now = null
 }
 
@@ -106,7 +109,6 @@ function counter() {
         }
     }, 500)
 }
-
 
 reset()
 counter()
