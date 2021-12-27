@@ -7,11 +7,15 @@
 #playerA, #playerB {
     border: 1px black solid;
     flex-grow: 2;
-    font: bold 30vw Roboto;
+    font: bold 10vw Roboto;
     margin: 6px;
 }
 
-#playerA {
+.portrait #playerA, .portrait #playerB {
+    font-size: 30vw;
+}
+
+.portrait #playerA {
     transform: rotate(180deg);
 }
 
@@ -49,10 +53,28 @@ button:active, #playerA:active, #playerB:active {
     text-align: center;
 }
 
+body {
+    flex-flow: row;
+    width: 100vw;
+}
+
+body.portrait {
+    flex-flow: column;
+    height: 100vh;
+}
+
+#layout:after {
+    content: "▯"
+}
+
+.portrait #layout:after {
+    content: "▭"
+}
+
 </style>
 </head>
 
-<body class="swap" style="display:flex; flex-flow:column; height:100vh; margin:0;">
+<body class="swap portrait" style="display:flex; margin:0;">
 <button id="playerA" onclick="clickA()"></button>
 
 <div id="control">
@@ -60,6 +82,7 @@ button:active, #playerA:active, #playerB:active {
 <button onclick="--t0mm; reset(1)" style="float:left">&minus;</button>
 <button id="fullscreen" onclick="if (document.fullscreenElement) {(document.exitFullscreen || document.webkitExitFullscreen).call(document)}
    else {var elem = document.documentElement; (elem.requestFullscreen || elem.webkitRequestFullscreen).call(elem)}" style="float:left">⛶</button>
+<button id="layout" style="float:left" onclick="document.body.classList.toggle('portrait')"></button>
 <button onclick="pause()">Pause II</button>
 <button onclick="reset()">New &udarr;</button>
 <a href="https://github.com/mzechmeister/js_chess_clock" style="float:right; padding-right: 6px;"><svg width="12" height="12" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
