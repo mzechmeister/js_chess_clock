@@ -49,7 +49,7 @@ button:active, #playerA:active, #playerB:active {
 </head>
 
 <body style="display:flex; flex-flow: column; height: 100vh; margin:0;">
-<button id="playerA" onclick="clickWhite()"></button>
+<button id="playerA" onclick="clickA()"></button>
 
 <div id="control">
 <button onclick="++t0mm; reset(1)" style="float:left">+</button>
@@ -63,7 +63,7 @@ button:active, #playerA:active, #playerB:active {
 </svg></img></a>
 </div>
 
-<button id="playerB" onclick="clickBlack()"></button>
+<button id="playerB" onclick="clickB()"></button>
 
 <script>
 t0mm = 10  // [min] default time limit
@@ -89,7 +89,7 @@ pause = e => {
     pl_now = null
 }
 
-clickWhite = e => { 
+clickA = e => { 
     if (pl_now == playerB) return            // black is already running
     if (pl_now != null) timeA = remaining   // after resume from pause
     pl_now = playerB
@@ -98,7 +98,7 @@ clickWhite = e => {
     beep()
 }
 
-clickBlack = e => { 
+clickB = e => { 
     if (pl_now == playerA) return
     if (pl_now != null) timeB = remaining
     pl_now = playerA
