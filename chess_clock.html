@@ -34,6 +34,10 @@ button:active, #playerA:active, #playerB:active {
     background-color: grey;
 }
 
+.thinking {
+    outline: red solid 4px;
+}
+
 #control > button {
     border: 1px black solid;
     flex-grow: 1;
@@ -69,6 +73,8 @@ button:active, #playerA:active, #playerB:active {
 t0mm = 10  // [min] default time limit
 
 function reset(prevent_swap) {
+    playerA.classList.remove("thinking")
+    playerB.classList.remove("thinking")
     timeA = t0mm * 60 * 1000
     timeB = t0mm * 60 * 1000
     playerA.innerHTML = tfmt(timeA)
@@ -87,10 +93,14 @@ pause = e => {
     if (pl_now == playerA) timeA = remaining
     if (pl_now == playerB) timeB = remaining
     pl_now = null
+    playerA.classList.remove("thinking")
+    playerB.classList.remove("thinking")
 }
 
-clickA = e => { 
-    if (pl_now == playerB) return            // black is already running
+clickA = e => {
+    playerA.classList.remove("thinking")
+    playerB.classList.add("thinking")
+    if (pl_now == playerB) return            // black is already thinking
     if (pl_now != null) timeA = remaining   // after resume from pause
     pl_now = playerB
     endTime = new Date().getTime() + timeB
@@ -99,6 +109,8 @@ clickA = e => {
 }
 
 clickB = e => { 
+    playerB.classList.remove("thinking")
+    playerA.classList.add("thinking")
     if (pl_now == playerA) return
     if (pl_now != null) timeB = remaining
     pl_now = playerA
