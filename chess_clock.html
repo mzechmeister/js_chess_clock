@@ -26,7 +26,7 @@
 }
 
 #playerB:after, #playerA:after {
-    content: " "attr(cnt);
+    content: attr(value);
     font-size: 18px;
 }
 
@@ -52,7 +52,7 @@ button:active, #playerA:active, #playerB:active {
 </style>
 </head>
 
-<body class="swap" style="display:flex; flex-flow: column; height: 100vh; margin:0;">
+<body class="swap" style="display:flex; flex-flow:column; height:100vh; margin:0;">
 <button id="playerA" onclick="clickA()"></button>
 
 <div id="control">
@@ -81,8 +81,8 @@ function reset(prevent_swap) {
     playerB.innerHTML = tfmt(playerB.time)
     if (!prevent_swap) {
         swap = document.body.classList.toggle("swap")
-        playerA.setAttribute('cnt', swap ? -1 : 0)
-        playerB.setAttribute('cnt', swap ? 0 : -1)
+        playerA.value = swap ? -1 : 0
+        playerB.value = swap ? 0 : -1
     }
     pl_now = null
 }
@@ -102,7 +102,7 @@ clickA = e => {
     playerB.classList.add("thinking")
     playerA.classList.remove("thinking")
     endTime = new Date().getTime() + playerB.time
-    playerA.setAttribute('cnt', +playerA.getAttribute('cnt') + 1)
+    ++playerA.value
     beep()
 }
 
@@ -113,7 +113,7 @@ clickB = e => {
     playerA.classList.add("thinking")
     playerB.classList.remove("thinking")
     endTime = new Date().getTime() + playerA.time
-    playerB.setAttribute('cnt', +playerB.getAttribute('cnt') + 1)
+    ++playerB.value
     beep()
 }
 
