@@ -75,10 +75,10 @@ t0mm = 10  // [min] default time limit
 function reset(prevent_swap) {
     playerA.classList.remove("thinking")
     playerB.classList.remove("thinking")
-    timeA = t0mm * 60 * 1000
-    timeB = t0mm * 60 * 1000
-    playerA.innerHTML = tfmt(timeA)
-    playerB.innerHTML = tfmt(timeB)
+    playerA.time = t0mm * 60 * 1000
+    playerB.time = t0mm * 60 * 1000
+    playerA.innerHTML = tfmt(playerA.time)
+    playerB.innerHTML = tfmt(playerB.time)
     if (!prevent_swap) {
         playerA.classList.toggle("swap")
         playerB.classList.toggle("swap")
@@ -90,20 +90,20 @@ function reset(prevent_swap) {
 }
 
 pause = e => {
-    if (pl_now == playerA) timeA = remaining
-    if (pl_now == playerB) timeB = remaining
+    if (pl_now) {
+       pl_now.time = remaining
+       pl_now.classList.remove("thinking")
+    }
     pl_now = null
-    playerA.classList.remove("thinking")
-    playerB.classList.remove("thinking")
 }
 
 clickA = e => {
     playerA.classList.remove("thinking")
     playerB.classList.add("thinking")
     if (pl_now == playerB) return            // black is already thinking
-    if (pl_now != null) timeA = remaining   // after resume from pause
+    if (pl_now != null) playerA.time = remaining   // after resume from pause
     pl_now = playerB
-    endTime = new Date().getTime() + timeB
+    endTime = new Date().getTime() + playerB.time
     playerA.setAttribute('cnt', +playerA.getAttribute('cnt') + 1)
     beep()
 }
@@ -112,9 +112,9 @@ clickB = e => {
     playerB.classList.remove("thinking")
     playerA.classList.add("thinking")
     if (pl_now == playerA) return
-    if (pl_now != null) timeB = remaining
+    if (pl_now != null) playerB.time = remaining
     pl_now = playerA
-    endTime = new Date().getTime() + timeA
+    endTime = new Date().getTime() + playerA.time
     playerB.setAttribute('cnt', +playerB.getAttribute('cnt') + 1)
     beep()
 }
@@ -130,7 +130,7 @@ function tfmt(t) {
 
 function counter() {
     var now = new Date().getTime()
-    endTime = now + timeA
+    endTime = now + playerA.time
  
     // Update the count down every 1 second
     x = setInterval(function() {
