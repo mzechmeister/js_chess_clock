@@ -15,12 +15,12 @@
     transform: rotate(180deg);
 }
 
-#playerA, #playerB.swap {
+#playerA, .swap #playerB {
     background-color: white;
     color: black;
 }
 
-#playerB, #playerA.swap {
+#playerB, .swap #playerA {
     background-color: black;
     color: white;
 }
@@ -52,7 +52,7 @@ button:active, #playerA:active, #playerB:active {
 </style>
 </head>
 
-<body style="display:flex; flex-flow: column; height: 100vh; margin:0;">
+<body class="swap" style="display:flex; flex-flow: column; height: 100vh; margin:0;">
 <button id="playerA" onclick="clickA()"></button>
 
 <div id="control">
@@ -80,9 +80,7 @@ function reset(prevent_swap) {
     playerA.innerHTML = tfmt(playerA.time)
     playerB.innerHTML = tfmt(playerB.time)
     if (!prevent_swap) {
-        playerA.classList.toggle("swap")
-        playerB.classList.toggle("swap")
-        var swap = document.getElementsByClassName("swap").length
+        swap = document.body.classList.toggle("swap")
         playerA.setAttribute('cnt', swap ? -1 : 0)
         playerB.setAttribute('cnt', swap ? 0 : -1)
     }
@@ -153,7 +151,6 @@ function beep() {
 }
 
 reset() 
-reset()   // again to have black at bottom
 counter()
 
 </script>
