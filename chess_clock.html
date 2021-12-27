@@ -100,8 +100,8 @@ pause = e => {
 clickA = e => {
     playerA.classList.remove("thinking")
     playerB.classList.add("thinking")
-    if (pl_now == playerB) return            // black is already thinking
-    if (pl_now != null) playerA.time = remaining   // after resume from pause
+    if (pl_now == playerB) return            // is already thinking
+    if (pl_now == playerA) playerA.time = remaining
     pl_now = playerB
     endTime = new Date().getTime() + playerB.time
     playerA.setAttribute('cnt', +playerA.getAttribute('cnt') + 1)
@@ -112,7 +112,7 @@ clickB = e => {
     playerB.classList.remove("thinking")
     playerA.classList.add("thinking")
     if (pl_now == playerA) return
-    if (pl_now != null) playerB.time = remaining
+    if (pl_now == playerB) playerB.time = remaining
     pl_now = playerA
     endTime = new Date().getTime() + playerA.time
     playerB.setAttribute('cnt', +playerB.getAttribute('cnt') + 1)
