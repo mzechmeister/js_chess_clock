@@ -9,6 +9,9 @@
     border: 1px black solid;
     font: bold 30vw Roboto;
     margin: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #playerA {
@@ -48,7 +51,7 @@
 }
 
 #playerB:after, #playerA:after {
-    content: attr(value);
+    content: attr(tabIndex);
     font-size: 18px;
 }
 
@@ -110,7 +113,7 @@ body.controlAtTop {
 </head>
 
 <body>
-<button id="playerA" onclick="clickA()"></button>
+<div id="playerA" onclick="clickA()"></div>
 
 <div id="control">
 <button onclick="++t0mm; reset(0)" style="float:left">+</button>
@@ -125,7 +128,7 @@ body.controlAtTop {
 </svg></img></a>
 </div>
 
-<button id="playerB" onclick="clickB()"></button>
+<div id="playerB" onclick="clickB()"></div>
 
 <script>
 t0mm = 10  // [min] default time limit
@@ -139,8 +142,8 @@ function reset(swap=1) {
     playerB.innerHTML = tfmt(playerB.time)
     if (swap)
         document.body.classList.toggle("swap")
-    playerA.value = 0
-    playerB.value = 0
+    playerA.tabIndex = 0
+    playerB.tabIndex = 0
     pl_now = null
 }
 
@@ -157,7 +160,7 @@ clickA = e => {
     if (pl_now == playerA) {
         playerA.classList.remove("thinking")
         playerA.time = remaining
-        ++playerA.value
+        ++playerA.tabIndex
     }
     pl_now = playerB
     playerB.classList.add("thinking")
@@ -170,7 +173,7 @@ clickB = e => {
     if (pl_now == playerB) {
         playerB.classList.remove("thinking")
         playerB.time = remaining
-        ++playerB.value
+        ++playerB.tabIndex
     }
     pl_now = playerA
     playerA.classList.add("thinking")
