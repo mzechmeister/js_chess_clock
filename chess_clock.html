@@ -109,12 +109,12 @@ body.controlAtTop {
 </style>
 </head>
 
-<body class="swap">
+<body>
 <button id="playerA" onclick="clickA()"></button>
 
 <div id="control">
-<button onclick="++t0mm; reset(1)" style="float:left">+</button>
-<button onclick="--t0mm; reset(1)" style="float:left">&minus;</button>
+<button onclick="++t0mm; reset(0)" style="float:left">+</button>
+<button onclick="--t0mm; reset(0)" style="float:left">&minus;</button>
 <button id="fullscreen" onclick="if (document.fullscreenElement) {(document.exitFullscreen || document.webkitExitFullscreen).call(document)}
    else {var elem = document.documentElement; (elem.requestFullscreen || elem.webkitRequestFullscreen).call(elem)}" style="float:left">⛶</button>
 <button id="layout" style="float:left" onclick="document.body.classList.toggle('objective') || document.body.classList.toggle('controlAtTop')"></button>
@@ -130,18 +130,17 @@ body.controlAtTop {
 <script>
 t0mm = 10  // [min] default time limit
 
-function reset(prevent_swap) {
+function reset(swap=1) {
     playerA.classList.remove("thinking")
     playerB.classList.remove("thinking")
     playerA.time = t0mm * 60 * 1000
     playerB.time = t0mm * 60 * 1000
     playerA.innerHTML = tfmt(playerA.time)
     playerB.innerHTML = tfmt(playerB.time)
-    if (!prevent_swap) {
-        swap = document.body.classList.toggle("swap")
-        playerA.value = swap ? -1 : 0
-        playerB.value = swap ? 0 : -1
-    }
+    if (swap)
+        document.body.classList.toggle("swap")
+    playerA.value = 0
+    playerB.value = 0
     pl_now = null
 }
 
@@ -155,23 +154,27 @@ pause = e => {
 
 clickA = e => {
     if (pl_now == playerB) return   // is already thinking
-    if (pl_now == playerA) playerA.time = remaining
+    if (pl_now == playerA) {
+        playerA.classList.remove("thinking")
+        playerA.time = remaining
+        ++playerA.value
+    }
     pl_now = playerB
     playerB.classList.add("thinking")
-    playerA.classList.remove("thinking")
     endTime = new Date().getTime() + playerB.time
-    ++playerA.value
     beep()
 }
 
 clickB = e => { 
     if (pl_now == playerA) return
-    if (pl_now == playerB) playerB.time = remaining
+    if (pl_now == playerB) {
+        playerB.classList.remove("thinking")
+        playerB.time = remaining
+        ++playerB.value
+    }
     pl_now = playerA
     playerA.classList.add("thinking")
-    playerB.classList.remove("thinking")
     endTime = new Date().getTime() + playerA.time
-    ++playerB.value
     beep()
 }
 
@@ -204,11 +207,11 @@ function counter() {
 }
 
 function beep() {
-    var snd = new Audio("data:audio/mpeg;base64,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") 
+    var snd = new Audio("data:audio/mpeg;base64,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")
     snd.play()
 }
 
-reset() 
+reset(0)
 counter()
 
 </script>
