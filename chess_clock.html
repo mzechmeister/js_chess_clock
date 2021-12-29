@@ -212,7 +212,7 @@ function tfmt(t) {
 }
 
 
-function counter() {
+function timer() {
     var now = new Date().getTime()
     endTime = now + playerA.time
  
@@ -224,8 +224,7 @@ function counter() {
         if (pl_now) {
             pl_now.innerHTML = tfmt(remaining)
             if (remaining < 0) {
-                clearInterval(x);
-                pl_now.innerHTML = "EXPIRED"
+                pl_now.innerHTML = "END"
             }
         }
     }, 500)
@@ -237,7 +236,7 @@ function beep() {
 }
 
 reset(0)
-counter()
+timer()
 
 </script>
 
