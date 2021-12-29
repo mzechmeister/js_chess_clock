@@ -65,8 +65,12 @@
 }
 
 
-button:active, #playerA:active, #playerB:active {
+button:active, .thinking:active {
     background-color: grey;
+}
+
+#playerA:not(.thinking):active, #playerB:not(.thinking):active {
+    color: grey;
 }
 
 .thinking {
@@ -149,8 +153,8 @@ body.controlAtTop {
 </svg></img></a>
 </div>
 
-<div id="playerA" onclick="clickA()"></div>
-<div id="playerB" onclick="clickB()"></div>
+<div id="playerA" onclick="Click(playerB)"></div>
+<div id="playerB" onclick="Click(playerA)"></div>
 
 <script>
 t0mm = 10  // [min] default time limit
@@ -171,35 +175,22 @@ function reset(swap=1) {
 
 pause = e => {
     if (pl_now) {
-       pl_now.time = remaining
        pl_now.classList.remove("thinking")
+       pl_now.time = remaining
     }
     pl_now = null
 }
 
-clickA = e => {
-    if (pl_now == playerB) return   // is already thinking
-    if (pl_now == playerA) {
-        playerA.classList.remove("thinking")
-        playerA.time = remaining
-        ++playerA.tabIndex
+Click = pl_next => {
+    if (pl_now == pl_next) return   // is already thinking
+    if (pl_now) {
+        pl_now.classList.remove("thinking")
+        pl_now.time = remaining
+        ++pl_now.tabIndex
     }
-    pl_now = playerB
-    playerB.classList.add("thinking")
-    endTime = new Date().getTime() + playerB.time
-    beep()
-}
-
-clickB = e => { 
-    if (pl_now == playerA) return
-    if (pl_now == playerB) {
-        playerB.classList.remove("thinking")
-        playerB.time = remaining
-        ++playerB.tabIndex
-    }
-    pl_now = playerA
-    playerA.classList.add("thinking")
-    endTime = new Date().getTime() + playerA.time
+    pl_now = pl_next
+    pl_now.classList.add("thinking")
+    endTime = new Date().getTime() + pl_now.time
     beep()
 }
 
