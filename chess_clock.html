@@ -7,11 +7,13 @@
 
 #playerA, #playerB {
     border: 1px black solid;
-    font: bold 30vw Roboto;
+    font: bold calc(min(30vh, 30vw)) Roboto;
+    /* ~ 100vw / 6 char / 0.5 aspect ~ 33 */
     margin: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
+    user-select: none;
 }
 
 #playerA {
@@ -22,22 +24,22 @@
 .objective #playerA, .objective #playerB {
     writing-mode: vertical-lr;
     transform: rotate(180deg);
-    font-size: 20vw;
+    font-size: calc(11vh + 2vmin);
 }
 
 .controlAtTop #playerA, .controlAtTop #playerB {
     transform: rotate(0deg);
-    font-size: 20vw;
+    font-size: 14vh;
 }
 
-.objective.controlAtTop #playerA {
+.objective.controlAtTop #playerA, .objective.controlAtTop #playerB {
     transform: rotate(180deg);
     writing-mode: vertical-lr;
+    font-size: calc(min(35vh, 25vw));
 }
 
 .objective.controlAtTop #playerB {
     transform: rotate(0deg);
-    writing-mode: vertical-lr;
 }
 
 #playerA, .swap #playerB {
@@ -52,8 +54,16 @@
 
 #playerB:after, #playerA:after {
     content: attr(tabIndex);
-    font-size: 18px;
+    font-size: 30%;
+    position: relative;
+    top: 1em;
 }
+
+.objective > #playerB:after, .objective > #playerA:after {
+    top: 0;
+    left: -1em;
+}
+
 
 button:active, #playerA:active, #playerB:active {
     background-color: grey;
@@ -65,8 +75,12 @@ button:active, #playerA:active, #playerB:active {
 
 #control > button {
     border: 1px black solid;
-    font: bold 5vw Roboto;
+    font: bold 7vw Roboto;
     margin: 6px;
+}
+
+.controlAtTop > #control > button {
+    font-size: 8vw;
 }
 
 #control {
