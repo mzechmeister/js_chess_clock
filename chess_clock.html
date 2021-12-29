@@ -126,22 +126,22 @@ body.controlAtTop {
 }
 
 #layout:after {
-    content: "▯"
+    content: "⌸"
 }
 
-.portrait #layout:after {
-    content: "▭"
+.playing #control *:nth-last-child(-n+3)  {
+    visibility: hidden;
 }
 
-.playing #reset, .playing #control *:nth-last-child(-n+3)  {
+.playing #reset, .playing #control > a {
     display: none;
 }
 
-#pause {
+#pause, .hspace~.hspace {
     display: none;
 }
 
-.playing #pause {
+.playing #pause, .playing .hspace~.hspace {
     display: initial;
 }
 
@@ -151,9 +151,9 @@ body.controlAtTop {
 <body>
 
 <div id="control">
+<button id="layout" onclick="document.body.classList.toggle('objective') || document.body.classList.toggle('controlAtTop')"></button>
 <button id="fullscreen" onclick="if (document.fullscreenElement) {(document.exitFullscreen || document.webkitExitFullscreen).call(document)}
    else {var elem = document.documentElement; (elem.requestFullscreen || elem.webkitRequestFullscreen).call(elem)}">⛶</button>
-<button id="layout" onclick="document.body.classList.toggle('objective') || document.body.classList.toggle('controlAtTop')"></button>
 <div class="hspace"></div>
 <button id="pause" onclick="pause()">Pause II</button>
 <button id="reset" onclick="reset()">New &udarr;</button>
@@ -187,12 +187,12 @@ function reset(swap=1) {
 
 pause = e => {
     if (pl_now) {
-       pl_now.classList.remove("thinking")
-       pl_now.time = remaining
+        pl_now.classList.remove("thinking")
+        pl_now.time = remaining
     }
     pl_now = null
     document.body.classList.remove("playing")
-    }
+}
 
 Click = pl_next => {
     document.body.classList.add("playing")
