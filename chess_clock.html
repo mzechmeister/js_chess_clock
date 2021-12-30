@@ -165,8 +165,8 @@ body.controlAtTop {
 </svg></img></a>
 </div>
 
-<div id="playerA" onmousedown="Click(playerB)"></div>
-<div id="playerB" onmousedown="Click(playerA)"></div>
+<div id="playerA" onmousedown="Click(playerB)" ontouchstart="Click(playerB)"></div>
+<div id="playerB" onmousedown="Click(playerA)" ontouchstart="Click(playerA)"></div>
 
 <script>
 t0mm = 10  // [min] default time limit
@@ -195,6 +195,7 @@ pause = e => {
 }
 
 Click = pl_next => {
+    event.preventDefault()  // no context menu on touch
     document.body.classList.add("playing")
     if (pl_now == pl_next) return   // is already thinking
     if (pl_now) {
