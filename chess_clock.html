@@ -172,17 +172,15 @@ body.controlAtTop {
 t0mm = 10  // [min] default time limit
 
 function reset(swap=1) {
-    playerA.classList.remove("thinking")
-    playerB.classList.remove("thinking")
+    pl_now = null
+    playerA.tabIndex = 0
+    playerB.tabIndex = 0
     playerA.time = t0mm * 60 * 1000
     playerB.time = t0mm * 60 * 1000
     playerA.innerHTML = tfmt(playerA.time)
     playerB.innerHTML = tfmt(playerB.time)
     if (swap)
         document.body.classList.toggle("swap")
-    playerA.tabIndex = 0
-    playerB.tabIndex = 0
-    pl_now = null
 }
 
 pause = e => {
