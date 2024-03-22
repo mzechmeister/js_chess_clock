@@ -42,12 +42,12 @@
     transform: rotate(0deg);
 }
 
-#playerA, .swap #playerB {
+#playerA, #swap:checked ~ #playerB {
     background-color: white;
     color: black;
 }
 
-#playerB, .swap #playerA {
+#playerB, #swap:checked ~ #playerA {
     background-color: black;
     color: white;
 }
@@ -65,7 +65,7 @@
 }
 
 
-button:active, .thinking:active {
+#control > button:active, [for="swap"]:active, .thinking:active {
     background-color: grey;
 }
 
@@ -77,13 +77,16 @@ button:active, .thinking:active {
     outline: red solid 4px;
 }
 
-#control > button {
+#control > button, [for="swap"] {
+    background: #eee;
     border: 1px black solid;
     font: bold 7vw Roboto;
     margin: 6px;
+    padding: 1px 4px;
+    user-select: none;
 }
 
-.controlAtTop > #control > button {
+.controlAtTop > #control > button, .controlAtTop > [for="swap"] {
     font-size: 8vw;
 }
 
@@ -133,7 +136,7 @@ body.controlAtTop {
     visibility: hidden;
 }
 
-.playing #reset, .playing #control > a {
+.playing [for="swap"], .playing #control > a {
     display: none;
 }
 
@@ -150,13 +153,14 @@ body.controlAtTop {
 
 <body>
 
+<input type="checkbox" id="swap" onclick="reset()" style="display: none">
 <div id="control">
 <button id="layout" onclick="document.body.classList.toggle('objective') || document.body.classList.toggle('controlAtTop')"></button>
 <button id="fullscreen" onclick="if (document.fullscreenElement) {(document.exitFullscreen || document.webkitExitFullscreen).call(document)}
    else {var elem = document.documentElement; (elem.requestFullscreen || elem.webkitRequestFullscreen).call(elem)}">⛶</button>
 <div class="hspace"></div>
 <button id="pause" onclick="pause()">Pause II</button>
-<button id="reset" onclick="reset()">New &udarr;</button>
+<label for="swap">New &udarr;</label>
 <div class="hspace"></div>
 <button onclick="++t0mm; reset(0)">+</button>
 <button onclick="--t0mm; reset(0)">&minus;</button>
@@ -179,8 +183,6 @@ function reset(swap=1) {
     playerB.time = t0mm * 60 * 1000
     playerA.innerHTML = tfmt(playerA.time)
     playerB.innerHTML = tfmt(playerB.time)
-    if (swap)
-        document.body.classList.toggle("swap")
 }
 
 pause = e => {
