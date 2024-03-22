@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 
-#playerA, #playerB {
+[id^="player"] {
     border: 1px black solid;
     font: bold calc(min(30vh, 30vw)) Roboto;
     /* ~ 100vw / 6 char / 0.5 aspect ~ 33 */
@@ -21,18 +21,18 @@
     transform: rotate(180deg);
 }
 
-.objective #playerA, .objective #playerB {
+.objective [id^="player"] {
     writing-mode: vertical-lr;
     transform: rotate(180deg);
     font-size: calc(11vh + 2vmin);
 }
 
-.controlAtTop #playerA, .controlAtTop #playerB {
+.controlAtTop [id^="player"] {
     transform: rotate(0deg);
     font-size: 14vh;
 }
 
-.objective.controlAtTop #playerA, .objective.controlAtTop #playerB {
+.objective.controlAtTop [id^="player"] {
     transform: rotate(180deg);
     writing-mode: vertical-lr;
     font-size: calc(min(35vh, 25vw));
@@ -52,14 +52,14 @@
     color: white;
 }
 
-#playerB:after, #playerA:after {
+[id^="player"]:after {
     content: attr(tabIndex);
     font-size: 30%;
     position: relative;
     top: 1em;
 }
 
-.objective > #playerB:after, .objective > #playerA:after {
+.objective > [id^="player"]:after {
     top: 0;
     left: -1em;
 }
@@ -69,7 +69,7 @@ button:active, .thinking:active {
     background-color: grey;
 }
 
-#playerA:not(.thinking):active, #playerB:not(.thinking):active {
+[id^="player"]:not(.thinking):active {
     color: grey;
 }
 
