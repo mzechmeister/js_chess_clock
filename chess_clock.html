@@ -66,7 +66,7 @@
     left: -1em;
 }
 
-#control > button:active, [for="swap"]:active {
+#control > button:active, [for="swap"]:active, #pause:active {
     background-color: grey;
 }
 
@@ -78,7 +78,7 @@
     color: grey;
 }
 
-#control > button, [for="swap"] {
+#control > button, [for="swap"], #pause {
     background: #eee;
     border: 1px black solid;
     font: bold 7vw Roboto;
@@ -129,21 +129,18 @@ body.controlAtTop {
         'seatB   seatA';
 }
 
-.playing #control *:nth-last-child(-n+3)  {
+[id^="run"]:checked ~ #control *:nth-last-child(-n+3)  {
     visibility: hidden;
 }
 
-.playing [for="swap"], .playing #control > a {
+#swap, [name="run"],
+#noturn:checked ~ #control #pause,
+#noturn:checked ~ #control .hspace~.hspace,
+#noturn:not(:checked) ~ #control [for="swap"],
+[id^="run"]:checked ~ #control > a {
     display: none;
 }
 
-#pause, #swap, [name="run"], .hspace~.hspace {
-    display: none;
-}
-
-.playing #pause, .playing .hspace~.hspace {
-    display: initial;
-}
 
 </style>
 </head>
@@ -151,14 +148,14 @@ body.controlAtTop {
 <body class="objective">
 
 <input type="checkbox" id="swap" onclick="reset()">
-<input type="radio" name="run" id="runpause" onclick="pause()">
+<input type="radio" name="run" id="noturn" onclick="pause()">
 <input type="radio" name="run" id="runA" onclick="Click(playerA)">
 <input type="radio" name="run" id="runB" onclick="Click(playerB)">
 <div id="control">
 <button id="layout" onclick="document.body.classList.toggle('objective') || document.body.classList.toggle('controlAtTop')">⌸</button>
 <button id="fullscreen" onclick="toggle_fullscreen()">⛶</button>
 <div class="hspace"></div>
-<button id="pause" onclick="pause()">Pause II</button>
+<label id="pause" for="noturn">Pause II</label>
 <label for="swap">New &udarr;</label>
 <div class="hspace"></div>
 <button onclick="++t0mm; reset(0)">+</button>
@@ -188,7 +185,6 @@ pause = e => {
     if (pl_now)
         pl_now.time = remaining
     pl_now = null
-    document.body.classList.remove("playing")
     toggle_fullscreen(false)
 }
 
@@ -196,7 +192,6 @@ window.addEventListener("contextmenu", e => e.preventDefault())
 
 Click = pl_next => {
     toggle_fullscreen(true)
-    document.body.classList.add("playing")
     if (pl_now == pl_next) return   // is already thinking
     if (pl_now) {
         pl_now.time = remaining
