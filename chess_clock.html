@@ -153,8 +153,7 @@ body.controlAtTop {
 <input type="checkbox" id="swap" onclick="reset()" style="display: none">
 <div id="control">
 <button id="layout" onclick="document.body.classList.toggle('objective') || document.body.classList.toggle('controlAtTop')">⌸</button>
-<button id="fullscreen" onclick="if (document.fullscreenElement) {(document.exitFullscreen || document.webkitExitFullscreen).call(document)}
-   else {var elem = document.documentElement; (elem.requestFullscreen || elem.webkitRequestFullscreen).call(elem)}">⛶</button>
+<button id="fullscreen" onclick="toggle_fullscreen()">⛶</button>
 <div class="hspace"></div>
 <button id="pause" onclick="pause()">Pause II</button>
 <label for="swap">New &udarr;</label>
@@ -189,10 +188,12 @@ pause = e => {
     }
     pl_now = null
     document.body.classList.remove("playing")
+    toggle_fullscreen(false)
 }
 
 Click = pl_next => {
     event.preventDefault()  // no context menu on touch
+    toggle_fullscreen(true)
     document.body.classList.add("playing")
     if (pl_now == pl_next) return   // is already thinking
     if (pl_now) {
@@ -214,6 +215,15 @@ function tfmt(t) {
     return mm + ":" + String(ss).padStart(2, '0')
 }
 
+function toggle_fullscreen(next=!document.fullscreenElement) {
+    if (!next == !document.fullscreenElement) return
+    if (next) {
+        var elem = document.documentElement;
+        (elem.requestFullscreen || elem.webkitRequestFullscreen).call(elem)
+    } else {
+        (document.exitFullscreen || document.webkitExitFullscreen).call(document)
+    }
+}
 
 function timer() {
     var now = new Date().getTime()
