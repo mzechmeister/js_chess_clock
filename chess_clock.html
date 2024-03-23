@@ -137,7 +137,7 @@ body.controlAtTop {
     display: none;
 }
 
-#pause, .hspace~.hspace {
+#pause, #swap, [name="run"], .hspace~.hspace {
     display: none;
 }
 
@@ -150,7 +150,10 @@ body.controlAtTop {
 
 <body class="objective">
 
-<input type="checkbox" id="swap" onclick="reset()" style="display: none">
+<input type="checkbox" id="swap" onclick="reset()">
+<input type="radio" name="run" id="runpause" onclick="pause()">
+<input type="radio" name="run" id="runA" onclick="Click(playerA)">
+<input type="radio" name="run" id="runB" onclick="Click(playerB)">
 <div id="control">
 <button id="layout" onclick="document.body.classList.toggle('objective') || document.body.classList.toggle('controlAtTop')">⌸</button>
 <button id="fullscreen" onclick="toggle_fullscreen()">⛶</button>
@@ -165,8 +168,8 @@ body.controlAtTop {
 </svg></img></a>
 </div>
 
-<div id="playerA" onmousedown="Click(playerB)" ontouchstart="Click(playerB)"></div>
-<div id="playerB" onmousedown="Click(playerA)" ontouchstart="Click(playerA)"></div>
+<label id="playerA" for="runB" onmousedown="this.click()" ontouchstart="this.click()"></label>
+<label id="playerB" for="runA" onmousedown="this.click()" ontouchstart="this.click()"></label>
 
 <script>
 t0mm = 10  // [min] default time limit
