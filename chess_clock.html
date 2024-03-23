@@ -16,34 +16,6 @@
     user-select: none;
 }
 
-[id="swap"]:checked ~ #playerB,
-[id="swap"]:not(:checked) ~ #playerA {
-    grid-area: seatA;
-    transform: rotate(180deg);
-}
-
-.objective:not(.controlAtTop) [id^="player"] {
-    transform: rotate(180deg);
-}
-
-.controlAtTop:not(.objective) #playerA,
-.controlAtTop:not(.objective) #playerB {
-    transform: rotate(0deg);
-}
-
-.objective [id^="player"] {
-    writing-mode: vertical-lr;
-    font-size: calc(11vh + 2vmin);
-}
-
-.controlAtTop [id^="player"] {
-    font-size: 14vh;
-}
-
-.objective.controlAtTop [id^="player"] {
-    font-size: calc(min(35vh, 25vw));
-}
-
 #playerA {
     background-color: white;
     color: black;
@@ -52,6 +24,34 @@
 #playerB {
     background-color: black;
     color: white;
+}
+
+[id="swap"]:checked ~ #playerB,
+[id="swap"]:not(:checked) ~ #playerA {
+    grid-area: seatA;
+    transform: rotate(180deg);
+}
+
+.objective [id^="player"] {
+    writing-mode: vertical-lr;
+    font-size: calc(11vh + 2vmin);
+}
+
+.objective:not(.controlAtTop) [id^="player"] {
+    transform: rotate(180deg);
+}
+
+.controlAtTop [id^="player"] {
+    font-size: 14vh;
+}
+
+.controlAtTop:not(.objective) #playerA,
+.controlAtTop:not(.objective) #playerB {
+    transform: rotate(0deg);
+}
+
+.objective.controlAtTop [id^="player"] {
+    font-size: calc(min(35vh, 25vw));
 }
 
 [id^="player"]:after {
