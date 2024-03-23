@@ -66,16 +66,16 @@
     left: -1em;
 }
 
-#control > button:active, [for="swap"]:active, .thinking:active {
+#control > button:active, [for="swap"]:active {
     background-color: grey;
 }
 
-#playerA:not(.thinking), #playerB:not(.thinking) {
-    color: grey;
+#runA:checked ~ #playerA, #runB:checked ~ #playerB {
+    outline: red solid 4px;
 }
 
-.thinking {
-    outline: red solid 4px;
+#runA:not(:checked) ~ #playerA, #runB:not(:checked) ~ #playerB {
+    color: grey;
 }
 
 #control > button, [for="swap"] {
@@ -185,27 +185,24 @@ function reset(swap=1) {
 }
 
 pause = e => {
-    if (pl_now) {
-        pl_now.classList.remove("thinking")
+    if (pl_now)
         pl_now.time = remaining
-    }
     pl_now = null
     document.body.classList.remove("playing")
     toggle_fullscreen(false)
 }
 
+window.addEventListener("contextmenu", e => e.preventDefault())
+
 Click = pl_next => {
-    event.preventDefault()  // no context menu on touch
     toggle_fullscreen(true)
     document.body.classList.add("playing")
     if (pl_now == pl_next) return   // is already thinking
     if (pl_now) {
-        pl_now.classList.remove("thinking")
         pl_now.time = remaining
         ++pl_now.tabIndex
     }
     pl_now = pl_next
-    pl_now.classList.add("thinking")
     endTime = new Date().getTime() + pl_now.time
     beep()
 }
