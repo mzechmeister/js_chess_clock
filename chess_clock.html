@@ -210,7 +210,7 @@ function tfmt(t) {
 }
 
 function toggle_fullscreen(next=!document.fullscreenElement) {
-    if (!next == !document.fullscreenElement) return
+    if (!next == !document.fullscreenElement || !document.hasFocus()) return
     if (next) {
         var elem = document.documentElement;
         (elem.requestFullscreen || elem.webkitRequestFullscreen).call(elem)
