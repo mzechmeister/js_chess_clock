@@ -134,9 +134,9 @@ body.controlAtTop {
 }
 
 #swap, [name="run"],
-#noturn:checked ~ #control #pause,
-#noturn:checked ~ #control .hspace~.hspace,
-#noturn:not(:checked) ~ #control [for="swap"],
+#nobody:checked ~ #control #pause,
+#nobody:checked ~ #control .hspace~.hspace,
+#nobody:not(:checked) ~ #control [for="swap"],
 [id^="run"]:checked ~ #control > a {
     display: none;
 }
@@ -147,14 +147,14 @@ body.controlAtTop {
 <body class="objective">
 
 <input type="checkbox" id="swap" onclick="reset()">
-<input type="radio" name="run" id="noturn" onclick="pause()">
+<input type="radio" name="run" id="nobody" onclick="pause()">
 <input type="radio" name="run" id="runA" onclick="Click(playerA)">
 <input type="radio" name="run" id="runB" onclick="Click(playerB)">
 <div id="control">
 <button id="layout" onclick="document.body.classList.toggle('objective') || document.body.classList.toggle('controlAtTop')">⌸</button>
 <button id="fullscreen" onclick="toggle_fullscreen()">⛶</button>
 <div class="hspace"></div>
-<label id="pause" for="noturn">Pause II</label>
+<label id="pause" for="nobody">Pause II</label>
 <label for="swap">New &udarr;</label>
 <div class="hspace"></div>
 <button onclick="++t0mm; reset()">+</button>
