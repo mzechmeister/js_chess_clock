@@ -78,7 +78,7 @@
     color: grey;
 }
 
-#control > button, [for="swap"], #pause {
+#control > button, [for="swap"], #pause, #bonus {
     background: #eee;
     border: 1px black solid;
     font: bold 7vw Roboto;
@@ -100,6 +100,10 @@
 }
 
 .hspace {
+    flex: 10;
+}
+
+.hspace ~ .hspace {
     flex: 5;
 }
 
@@ -129,11 +133,11 @@ body.controlAtTop {
         'seatB   seatA';
 }
 
-[id^="run"]:checked ~ #control *:nth-last-child(-n+3)  {
+[id^="run"]:checked ~ #control *:nth-last-child(-n+4)  {
     visibility: hidden;
 }
 
-#swap, [name="run"],
+#bonus_toggle, #swap, [name="run"],
 #nobody:checked ~ #control #pause,
 #nobody:checked ~ #control .hspace~.hspace,
 #nobody:not(:checked) ~ #control [for="swap"],
@@ -148,6 +152,21 @@ body.controlAtTop {
 
 @keyframes pulse-animation {
   to {color: grey;}
+}
+
+#bonus:before {
+    content: attr(tabIndex);
+}
+
+#bonus:after {
+    content: "s";
+}
+
+#bonus_toggle:checked ~ #bonus {
+    outline: 2px solid red; 
+}
+#bonus_toggle:checked ~ button {
+    outline: 2px dashed red; 
 }
 </style>
 </head>
@@ -165,8 +184,10 @@ body.controlAtTop {
 <label id="pause" for="nobody">Pause II</label>
 <label for="swap">New &udarr;</label>
 <div class="hspace"></div>
-<button onclick="++t0mm; reset()">+</button>
-<button onclick="--t0mm; reset()">&minus;</button>
+<input id="bonus_toggle" type="checkbox">
+<button onclick="if (bonus_toggle.checked) {++bonus.tabIndex} else {++t0mm; reset()}">+</button>
+<button onclick="if (bonus_toggle.checked) {--bonus.tabIndex} {--t0mm; reset()}">&minus;</button>
+<label id="bonus" for="bonus_toggle"></label>
 <a href="https://github.com/mzechmeister/js_chess_clock" style="padding-right: 6px;"><svg width="12" height="12" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M16 0C7.16 0 0 7.16 0 16C0 23.08 4.58 29.06 10.94 31.18C11.74 31.32 12.04 30.84 12.04 30.42C12.04 30.04 12.02 28.78 12.02 27.44C8 28.18 6.96 26.46 6.64 25.56C6.46 25.1 5.68 23.68 5 23.3C4.44 23 3.64 22.26 4.98 22.24C6.24 22.22 7.14 23.4 7.44 23.88C8.88 26.3 11.18 25.62 12.1 25.2C12.24 24.16 12.66 23.46 13.12 23.06C9.56 22.66 5.84 21.28 5.84 15.16C5.84 13.42 6.46 11.98 7.48 10.86C7.32 10.46 6.76 8.82 7.64 6.62C7.64 6.62 8.98 6.2 12.04 8.26C13.32 7.9 14.68 7.72 16.04 7.72C17.4 7.72 18.76 7.9 20.04 8.26C23.1 6.18 24.44 6.62 24.44 6.62C25.32 8.82 24.76 10.46 24.6 10.86C25.62 11.98 26.24 13.4 26.24 15.16C26.24 21.3 22.5 22.66 18.94 23.06C19.52 23.56 20.02 24.52 20.02 26.02C20.02 28.16 20 29.88 20 30.42C20 30.84 20.3 31.34 21.1 31.18C27.42 29.06 32 23.06 32 16C32 7.16 24.84 0 16 0V0Z" fill="#24292E"/>
 </svg></img></a>
@@ -177,6 +198,7 @@ body.controlAtTop {
 
 <script>
 t0mm = 10   // [min] default time limit
+bonus.tabIndex = 0   // [s] bonus time
 
 function reset() {
     pl_now = null
@@ -201,16 +223,19 @@ Click = pl_next => {
     toggle_fullscreen(true)
     if (pl_now == pl_next) return   // is already thinking
     if (pl_now) {
-        pl_now.time = remaining
+        pl_now.time = remaining + bonus.tabIndex*1000
+        pl_now.innerHTML = tfmt(pl_now.time)
         ++pl_now.tabIndex
     }
     pl_now = pl_next
     endTime = new Date().getTime() + pl_now.time
     beep()
+    bonus_toggle.checked = false
 }
 
 pulse = false
 function tfmt(t) {
+    if (t < 0) return "END"
     // Time calculations for days, hours, minutes and seconds
     var hh = 0 | (t/(1000 * 60 * 60) % 24)   // flooring
     var mm = 0 | (t/(1000 * 60) % 60)
@@ -237,7 +262,7 @@ function timer() {
         remaining = endTime - now
 
         if (pl_now)
-            pl_now.innerHTML = (remaining < 0) ? "END" :  tfmt(remaining)
+            pl_now.innerHTML = tfmt(remaining)
     }, 500)
 }
 
