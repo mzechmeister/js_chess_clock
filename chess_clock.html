@@ -212,9 +212,9 @@ Click = pl_next => {
 pulse = false
 function tfmt(t) {
     // Time calculations for days, hours, minutes and seconds
-    var hh = Math.floor(t/(1000 * 60 * 60) % 24)
-    var mm = Math.floor(t/(1000 * 60) % 60)
-    var ss = Math.floor(t/1000 % 60)
+    var hh = 0 | (t/(1000 * 60 * 60) % 24)   // flooring
+    var mm = 0 | (t/(1000 * 60) % 60)
+    var ss = 0 | (t/1000 % 60)
     return mm + '<span class="'+(pulse=!pulse?'pulse':'')+'">:</span>' + String(ss).padStart(2, '0')
 }
 
