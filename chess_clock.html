@@ -223,13 +223,13 @@ pause = e => {
 window.addEventListener("contextmenu", e => e.preventDefault())
 
 Click = pl_next => {
-    toggle_fullscreen(true)
     if (pl_now == pl_next) return   // is already thinking
     if (pl_now) {
         pl_now.time = remaining + bonus.tabIndex*1000
         pl_now.innerHTML = tfmt(pl_now.time)
         ++pl_now.tabIndex
-    }
+    } else
+        toggle_fullscreen(true)
     pl_now = pl_next
     endTime = new Date().getTime() + pl_now.time
     beep()
