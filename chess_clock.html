@@ -70,11 +70,13 @@
     background-color: grey;
 }
 
-#runA:checked ~ #playerA, #runB:checked ~ #playerB {
+#runA:checked ~ #playerA,
+#runB:checked ~ #playerB {
     outline: red solid 4px;
 }
 
-#runA:not(:checked) ~ #playerA, #runB:not(:checked) ~ #playerB {
+#runA:not(:checked) ~ #playerA,
+#runB:not(:checked) ~ #playerB {
     color: grey;
 }
 
@@ -87,7 +89,8 @@
     user-select: none;
 }
 
-.controlAtTop > #control > button, .controlAtTop > [for="swap"] {
+.controlAtTop > #control > button,
+.controlAtTop > [for="swap"] {
     font-size: 8vw;
 }
 
